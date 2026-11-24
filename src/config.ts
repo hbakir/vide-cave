@@ -8,7 +8,7 @@ export const vendeur = {
 
 // Clé publique Web3Forms (formulaire → e-mail). Publique par conception : elle ne permet que d'envoyer vers hicham@bakir.ch.
 // L'obtenir sur https://web3forms.com (champ « Create your Access Key », avec hicham@bakir.ch).
-export const web3formsKey = "";
+export const web3formsKey = "42a504b2-f880-49c2-873f-1399a856c8f8";
 
 export const site = {
   titre: "Vide-cave à Pully",
