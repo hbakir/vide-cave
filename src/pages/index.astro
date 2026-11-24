@@ -13,7 +13,7 @@ const mailto = (o) =>
   `&body=${encodeURIComponent(`Bonjour,\n\nJe souhaite réserver « ${o.titre} » (${o.prix} CHF).\n\nMon nom :\nMon téléphone :\nRetrait ou envoi :\n`)}`;
 ---
 <Base>
-  <p>Pour réserver, cliquez sur « Réserver » : un e-mail se prépare. Paiement par TWINT ou virement. {vendeur.retrait}</p>
+  <p>Pour réserver, cliquez sur « Réserver » : un e-mail se prépare. Paiement après confirmation, par TWINT au {vendeur.twint} ou par virement. {vendeur.retrait}</p>
   <ul class="grille">
     {liste.map((o) => (
       <li class:list={["carte", o.statut]}>

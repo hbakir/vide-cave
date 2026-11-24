@@ -2,8 +2,8 @@
 export const vendeur = {
   nom: "Hicham Bakir",
   localite: "Pully",
-  email: "A-REMPLIR@exemple.ch", // adresse privée, pas hicham@bakir.io
-  twint: "+41 7X XXX XX XX", // numéro TWINT privé
+  email: "hicham@bakir.ch",
+  twint: "+41 78 648 04 87",
   retrait: "Retrait à Pully sur rendez-vous, ou envoi par la Poste aux frais de l'acheteur.",
 };
 
