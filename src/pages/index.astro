@@ -10,10 +10,10 @@ const liste = [...objets].sort((a, b) => ordre[a.statut] - ordre[b.statut]);
 // Réservation : un e-mail pré-rempli, pas de formulaire ni de base de données.
 const mailto = (o) =>
   `mailto:${vendeur.email}?subject=${encodeURIComponent(`Réservation : ${o.titre}`)}` +
-  `&body=${encodeURIComponent(`Bonjour,\n\nJe souhaite réserver « ${o.titre} » (${o.prix} CHF).\n\nMon nom :\nMon téléphone :\nRetrait ou envoi :\n`)}`;
+  `&body=${encodeURIComponent(`Bonjour,\n\nJe souhaite réserver « ${o.titre} » (${o.prix} CHF).\n\nMon nom :\nMon numéro de mobile (pour la demande TWINT) :\nRetrait ou envoi :\n`)}`;
 ---
 <Base>
-  <p>Pour réserver, cliquez sur « Réserver » : un e-mail se prépare. Paiement après confirmation, par TWINT au {vendeur.twint} ou par virement. {vendeur.retrait}</p>
+  <p>Pour réserver, cliquez sur « Réserver » : un e-mail se prépare. Après confirmation, je vous envoie une demande de paiement TWINT sur le numéro indiqué dans votre e-mail (ou les coordonnées pour un virement). {vendeur.retrait}</p>
   <ul class="grille">
     {liste.map((o) => (
       <li class:list={["carte", o.statut]}>

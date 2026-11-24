@@ -3,7 +3,6 @@ export const vendeur = {
   nom: "Hicham Bakir",
   localite: "Pully",
   email: "hicham@bakir.ch",
-  twint: "+41 78 648 04 87",
   retrait: "Retrait à Pully sur rendez-vous, ou envoi par la Poste aux frais de l'acheteur.",
 };
 
