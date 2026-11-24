@@ -7,13 +7,9 @@ const libelle = { disponible: "Disponible", reserve: "Réservé", vendu: "Vendu"
 const ordre = { disponible: 0, reserve: 1, vendu: 2 };
 const liste = [...objets].sort((a, b) => ordre[a.statut] - ordre[b.statut]);
 
-// Réservation : un e-mail pré-rempli, pas de formulaire ni de base de données.
-const mailto = (o) =>
-  `mailto:${vendeur.email}?subject=${encodeURIComponent(`Réservation : ${o.titre}`)}` +
-  `&body=${encodeURIComponent(`Bonjour,\n\nJe souhaite réserver « ${o.titre} » (${o.prix} CHF).\n\nMon nom :\nMon numéro de mobile (pour la demande TWINT) :\nRetrait ou envoi :\n`)}`;
 ---
 <Base>
-  <p>Pour réserver, cliquez sur « Réserver » : un e-mail se prépare. Après confirmation, je vous envoie une demande de paiement TWINT sur le numéro indiqué dans votre e-mail (ou les coordonnées pour un virement). {vendeur.retrait}</p>
+  <p>Pour réserver, cliquez sur « Réserver » et remplissez le petit formulaire. Après confirmation, je vous envoie une demande de paiement TWINT sur votre mobile (ou les coordonnées pour un virement). {vendeur.retrait}</p>
   <ul class="grille">
     {liste.map((o) => (
       <li class:list={["carte", o.statut]}>
@@ -23,7 +19,7 @@ const mailto = (o) =>
         <p class="etat">{o.etat}</p>
         <p>{o.description}</p>
         {o.statut === "disponible"
-          ? <a class="bouton" href={mailto(o)}>Réserver</a>
+          ? <a class="bouton" href={`/reserver?objet=${o.id}`}>Réserver</a>
           : <span class="pastille">{libelle[o.statut]}</span>}
       </li>
     ))}

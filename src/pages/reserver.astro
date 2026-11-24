@@ -1,0 +1,68 @@
+---
+import Base from "../layouts/Base.astro";
+import objets from "../data/objets.json";
+import { web3formsKey } from "../config";
+const dispo = objets.filter((o) => o.statut === "disponible");
+---
+<Base titre="Réserver un objet">
+  <h2>Réserver un objet</h2>
+  {web3formsKey === "" && <p class="alerte">Le formulaire n'est pas encore actif.</p>}
+  <form id="resa" action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value={web3formsKey} />
+    <input type="hidden" name="subject" value="Vide-cave : nouvelle réservation" />
+    <input type="hidden" name="from_name" value="Vide-cave à Pully" />
+    <input type="checkbox" name="botcheck" class="piege" tabindex="-1" autocomplete="off" />
+    <label>Objet
+      <select name="objet" id="objet" required>
+        {dispo.map((o) => <option value={`${o.titre} (${o.prix} CHF)`} data-id={o.id}>{o.titre} — {o.prix} CHF</option>)}
+      </select>
+    </label>
+    <label>Votre nom <input type="text" name="name" required autocomplete="name" /></label>
+    <label>Votre e-mail <input type="email" name="email" required autocomplete="email" /></label>
+    <label>Votre mobile (pour la demande de paiement TWINT) <input type="tel" name="mobile" required autocomplete="tel" placeholder="+41 79 …" /></label>
+    <label>Retrait ou envoi
+      <select name="remise"><option>Retrait à Pully</option><option>Envoi par la Poste (à mes frais)</option></select>
+    </label>
+    <label>Message (facultatif) <textarea name="message" rows="3"></textarea></label>
+    <button type="submit">Envoyer la réservation</button>
+    <p id="etat" role="status"></p>
+  </form>
+  <p class="note">Vos données servent uniquement à cette vente. <a href="/donnees">En savoir plus</a>.</p>
+</Base>
+
+<script>
+  const form = document.getElementById("resa");
+  const etat = document.getElementById("etat");
+  const choix = new URLSearchParams(location.search).get("objet");
+  if (choix) {
+    const opt = document.querySelector(`option[data-id="${CSS.escape(choix)}"]`);
+    if (opt) opt.selected = true;
+  }
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const bouton = form.querySelector("button");
+    bouton.disabled = true;
+    etat.textContent = "Envoi en cours…";
+    try {
+      const r = await fetch(form.action, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(form) });
+      const j = await r.json();
+      if (!j.success) throw new Error(j.message);
+      form.reset();
+      etat.textContent = "Merci ! Votre réservation est bien arrivée. Je vous confirme par e-mail, puis je vous envoie la demande de paiement TWINT.";
+    } catch {
+      etat.textContent = "L'envoi a échoué. Réessayez dans un instant, ou écrivez à l'adresse indiquée dans « Qui vend ? ».";
+      bouton.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  form { display:grid; gap:.9rem; max-width:480px; }
+  label { display:grid; gap:.3rem; font-weight:600; }
+  input, select, textarea { font:inherit; padding:.6rem; border:1px solid #bbb; border-radius:6px; font-weight:400; }
+  button { background:var(--accent); color:#fff; border:0; padding:.8rem 1rem; border-radius:6px; font:inherit; font-weight:600; }
+  button:disabled { opacity:.6; }
+  .piege { display:none; }
+  .alerte { color:#a33; }
+  .note { color:var(--ardoise); font-size:.9rem; }
+</style>
