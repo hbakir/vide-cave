@@ -1,0 +1,44 @@
+---
+import Base from "../layouts/Base.astro";
+import objets from "../data/objets.json";
+import { vendeur } from "../config";
+
+const libelle = { disponible: "Disponible", reserve: "Réservé", vendu: "Vendu" };
+const ordre = { disponible: 0, reserve: 1, vendu: 2 };
+const liste = [...objets].sort((a, b) => ordre[a.statut] - ordre[b.statut]);
+
+// Réservation : un e-mail pré-rempli, pas de formulaire ni de base de données.
+const mailto = (o) =>
+  `mailto:${vendeur.email}?subject=${encodeURIComponent(`Réservation : ${o.titre}`)}` +
+  `&body=${encodeURIComponent(`Bonjour,\n\nJe souhaite réserver « ${o.titre} » (${o.prix} CHF).\n\nMon nom :\nMon téléphone :\nRetrait ou envoi :\n`)}`;
+---
+<Base>
+  <p>Pour réserver, cliquez sur « Réserver » : un e-mail se prépare. Paiement par TWINT ou virement. {vendeur.retrait}</p>
+  <ul class="grille">
+    {liste.map((o) => (
+      <li class:list={["carte", o.statut]}>
+        {o.photo ? <img src={`/photos/${o.photo}`} alt={o.titre} loading="lazy" /> : <div class="sans-photo">Photo à venir</div>}
+        <h2>{o.titre}</h2>
+        <p class="prix">{o.prix} CHF</p>
+        <p class="etat">{o.etat}</p>
+        <p>{o.description}</p>
+        {o.statut === "disponible"
+          ? <a class="bouton" href={mailto(o)}>Réserver</a>
+          : <span class="pastille">{libelle[o.statut]}</span>}
+      </li>
+    ))}
+  </ul>
+</Base>
+
+<style>
+  .grille { list-style:none; padding:0; display:grid; gap:1rem; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); }
+  .carte { background:#fff; border-radius:8px; padding:1rem; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+  .carte.reserve, .carte.vendu { opacity:.55; }
+  img, .sans-photo { width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:4px; background:#eee; }
+  .sans-photo { display:grid; place-items:center; color:var(--ardoise); }
+  h2 { font-size:1.1rem; margin:.6rem 0 .2rem; }
+  .prix { font-weight:700; margin:0; }
+  .etat { color:var(--ardoise); margin:0; font-size:.9rem; }
+  .bouton { display:inline-block; background:var(--accent); color:#fff; padding:.5rem 1rem; border-radius:6px; text-decoration:none; }
+  .pastille { display:inline-block; border:1px solid var(--ardoise); padding:.3rem .8rem; border-radius:6px; color:var(--ardoise); }
+</style>

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "exemple-lampe",
+    "titre": "Exemple — lampe de bureau",
+    "prix": 20,
+    "etat": "Bon état, fonctionne",
+    "description": "Objet d'exemple à remplacer. Une ou deux phrases suffisent : dimensions, défauts visibles.",
+    "photo": "",
+    "statut": "disponible"
+  },
+  {
+    "id": "exemple-velo",
+    "titre": "Exemple — vélo enfant 16 pouces",
+    "prix": 60,
+    "etat": "Usé, freins à régler",
+    "description": "Deuxième objet d'exemple. Le statut peut être disponible, réservé ou vendu.",
+    "photo": "",
+    "statut": "reserve"
+  }
+]

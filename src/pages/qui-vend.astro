@@ -1,0 +1,17 @@
+---
+import Base from "../layouts/Base.astro";
+import { vendeur } from "../config";
+---
+<Base titre="Qui vend ?">
+  <h2>Qui vend ?</h2>
+  <p>{vendeur.nom}, particulier, {vendeur.localite} (Suisse).</p>
+  <p>Contact : <a href={`mailto:${vendeur.email}`}>{vendeur.email}</a></p>
+  <p>Il s'agit d'une vente privée et ponctuelle d'objets personnels usagés, sans activité commerciale.</p>
+  <h2>Conditions de vente</h2>
+  <ul>
+    <li>Les objets sont vendus en l'état, sans garantie, tels que décrits et photographiés.</li>
+    <li>Une réservation est confirmée par e-mail ; l'objet est remis après paiement (TWINT ou virement).</li>
+    <li>{vendeur.retrait}</li>
+    <li>Une réservation non payée sous 3 jours peut être annulée.</li>
+  </ul>
+</Base>
